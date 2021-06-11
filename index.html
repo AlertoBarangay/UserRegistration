@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./styles.css">
+  <title>Document</title>
+</head>
+<body>
+  <div class="center-message">
+    <h2>
+      Securing identity.Please Wait.
+    </h2>
+  </div>
+</body>
+
+
+<script src="./sms.js"></script>
+<script>
+  verifyUser();
+
+  function getUserID(){
+    var url = new URL(window.location.href);
+    return url.searchParams.get("UID");
+  }
+
+  function verifyUser(){
+    //verify if the user is from the mobile app by checking if the user id is valid or not null
+    const userId = getUserID();
+    if(!userId)window.location.href = '/not-found.html';
+    saveToCookie(userIdCookieName,userId);
+    window.location.href = registrationLink; 
+    console.log(getCookie(userIdCookieName));
+  }
+
+
+
+
+
+  
+
+</script>
+</html>
