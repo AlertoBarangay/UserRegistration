@@ -23,15 +23,19 @@
   function getUserID(){
     var url = new URL(window.location.href);
     return url.searchParams.get("UID");
+    
   }
 
   function verifyUser(){
     //verify if the user is from the mobile app by checking if the user id is valid or not null
     const userId = getUserID();
-    if(!userId)window.location.href = '/not-found.html';
+    console.log(userId)
+    if(!userId){
+      window.location.href = '/not-found.html';
+      return;
+    }
     saveToCookie(userIdCookieName,userId);
     window.location.href = registrationLink; 
-    console.log(getCookie(userIdCookieName));
   }
 
 
