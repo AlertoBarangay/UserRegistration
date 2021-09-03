@@ -25,8 +25,9 @@
     https://firebase.google.com/docs/web/setup#available-libraries -->
 <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="./sms.js"></script>
+
 <script>
   
   // Your web app's Firebase configuration
@@ -45,26 +46,26 @@
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
 
-//-------------GET ALL DATA-------------//
-function SelectAllData(){
-  firebase.database().ref('Users').once('value',
-  function(AllRecords){
-    AllRecords.forEach(
-      function(CurrentRecord){
-        console.log(CurrentRecord.val());
-      }
-    )
-  });
-}
+
 
 
 const userId = getCookie(userIdCookieName);
-SelectAllData();
 
 function writeUserData(phoneCode) {
-  firebase.database().ref('Users/' + userId + '/phone').set({
-    globeLabCode : phoneCode
-  });
+  axios({
+    method: 'get',
+    url: 'https://alerto-backend.herokuapp.com?code=' + phoneCode,
+  })
+  .then((response)=>{
+    console.table(response.data);
+    firebase.database().ref('Users/' + userId + '/phone').set(response.data);
+  })
+  .catch((error)=>{
+    console.log(error);
+  })
+  ;
+
+ 
 }
 
 saveCodeToFirebase();
